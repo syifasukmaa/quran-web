@@ -1,0 +1,20 @@
+@import 'tailwindcss';
+
+#root {
+  margin: 0 auto;
+  text-align: left;
+  font-family: 'Poppins', sans-serif;
+  margin: 10px 20px;
+}
+
+:root {
+  --primary-color: #32b7c5;
+  --yellow-teal: #fbe09c;
+  --purple: #624bc3;
+}
+
+@theme inline {
+  --color-primary: var(--primary-color);
+  --color-yellow-teal: var(--yellow-teal);
+  --color-purple: var(--purple);
+}
