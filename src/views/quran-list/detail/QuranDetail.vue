@@ -16,6 +16,7 @@ const isOpen = ref(false);
 const dropdownRef = ref(null);
 const isOpenAyat = ref(false);
 const dropdownRefAyat = ref(null);
+const bookmarks = ref([]);
 
 // const handleClickOutside = (e) => {
 //   if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
@@ -129,6 +130,35 @@ onMounted(() => {
 onBeforeUnmount(() => {
   window.removeEventListener('beforeunload', stopAudio);
 });
+
+// ini untuk bookmark
+onMounted(() => {
+  bookmarks.value = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+});
+
+const toggleBookmark = (ayat) => {
+  const isExist = bookmarks.value.find(
+    (item) => item.surahId === Number(route.params.id) && item.ayatNumber === ayat.nomorAyat,
+  );
+
+  if (isExist) {
+    bookmarks.value = bookmarks.value.filter(
+      (item) => !(item.surahId === Number(route.params.id) && item.ayatNumber === ayat.nomorAyat),
+    );
+  } else {
+    bookmarks.value.push({
+      surahId: Number(route.params.id),
+      ayatNumber: ayat.nomorAyat,
+      surahName: surahStore.surahDetail.namaLatin,
+    });
+  }
+
+  localStorage.setItem('bookmarks', JSON.stringify(bookmarks.value));
+};
+
+const isBookmarked = (ayat) => {
+  return bookmarks.value.some((item) => item.surahId === Number(route.params.id) && item.ayatNumber === ayat.nomorAyat);
+};
 </script>
 
 <template>
@@ -260,7 +290,11 @@ onBeforeUnmount(() => {
                 @click="playAudio(ayat.audio?.['01'])"
               ></i>
               <i class="pi pi-share-alt text-primary text-2xl cursor-pointer"></i>
-              <i class="pi pi-bookmark text-primary text-2xl cursor-pointer"></i>
+              <i
+                class="pi text-2xl cursor-pointer"
+                :class="isBookmarked(ayat) ? 'pi-bookmark-fill text-yellow-500' : 'pi-bookmark text-primary'"
+                @click="toggleBookmark(ayat)"
+              ></i>
             </div>
             <div class="w-full h-[1px] bg-gray-400 my-4"></div>
           </div>
