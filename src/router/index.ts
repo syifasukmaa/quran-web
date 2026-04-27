@@ -1,7 +1,4 @@
-import App from '@/App.vue';
 import Home from '@/views/home/Home.vue';
-import QuranDetail from '@/views/quran-list/detail/QuranDetail.vue';
-import QuranList from '@/views/quran-list/QuranList.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -12,12 +9,31 @@ const router = createRouter({
       component: Home,
     },
     {
-      path: '/list-quran',
-      component: QuranList,
+      path: '/quran',
+      component: () => import('@/views/Parent.vue'),
+      children: [
+        {
+          path: 'surah',
+          component: () => import('@/views/quran-list/QuranList.vue'),
+        },
+        {
+          path: 'doa',
+          component: () => import('@/views/doa/DoaList.vue'),
+        },
+      ],
     },
     {
-      path: '/list-quran/:id',
-      component: QuranDetail,
+      path: '/quran/surah/:id',
+      component: () => import('@/views/quran-list/detail/QuranDetail.vue'),
+    },
+    {
+      path: '/quran/doa/:id',
+      component: () => import('@/views/doa/detail/DoaDetail.vue'),
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      component: () => import('@/views/error/NotFound.vue'),
+      meta: { hideFooter: true },
     },
   ],
 });

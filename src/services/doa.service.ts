@@ -1,9 +1,9 @@
 import apiRequest from '@/libs/api-request';
 
-export const getPosts = () => {
-  return apiRequest.get('/doa');
+export const getDoas = () => {
+  return apiRequest.get(`/doa`);
 };
 
-export const getPostsId = (id: number) => {
+export const getDoasId = (id: number) => {
   return apiRequest.get(`/doa/${id}`);
 };

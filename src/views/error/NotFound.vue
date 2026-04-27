@@ -1,0 +1,10 @@
+<style scoped></style>
+<template>
+  <div class="flex items-center justify-center h-screen">
+    <div class="text-center">
+      <h1 class="text-4xl font-bold">404</h1>
+      <p class="text-xl">Page not found</p>
+    </div>
+  </div>
+</template>
+<script setup></script>

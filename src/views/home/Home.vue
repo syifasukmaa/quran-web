@@ -50,7 +50,7 @@ const navigateToQuranList = () => {
   error.value = '';
 
   localStorage.setItem('name', name.value);
-  router.push('/list-quran');
+  router.push('/surah');
 };
 
 const name = ref('');

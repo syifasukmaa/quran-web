@@ -7,14 +7,23 @@ const emit = defineEmits(['click']);
 </script>
 
 <template>
-  <div class="bg-white p-3 rounded-lg border border-primary flex flex-col">
-    <p class="font-semibold">{{ item.surahName }} - Ayat {{ item.ayatNumber }}</p>
+  <div
+    class="bg-white p-3 rounded-lg border border-gray-500 flex flex-col hover:border-primary hover:bg-gray-300/70 cursor-pointer transition-all h-24"
+    @click="$emit('click')"
+  >
+    <div class="flex justify-between items-center">
+      <p class="font-semibold">{{ item.surahName }} - Ayat {{ item.ayatNumber }}</p>
 
-    <button
-      @click="$emit('click')"
-      class="mt-3 text-sm bg-primary cursor-pointer text-white px-2 py-1 rounded-lg w-fit font-semibold hover:bg-primary/80 hover:text-white"
-    >
-      Lanjutkan
-    </button>
+      <i class="pi pi-bookmark-fill"></i>
+    </div>
+
+    <div class="mt-3">
+      <p
+        class="text-right text-lg line-clamp-1"
+        dir="rtl"
+      >
+        {{ item.arabText }}
+      </p>
+    </div>
   </div>
 </template>

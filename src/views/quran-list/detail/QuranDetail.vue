@@ -66,14 +66,12 @@ onMounted(async () => {
   await surahStore.fetchSurahs(Number(route.params.id));
 
   surahStoreList.fetchSurahs();
-
-  console.log('ID:', surahStore.surahDetail);
-  console.log('List:', surahStoreList.surahs);
+  // console.log('List:', surahStoreList.surahs);
 });
 
 const selectSurah = (id) => {
   isOpen.value = false;
-  router.push(`/list-quran/${id}`);
+  router.push(`/quran/surah/${id}`);
 };
 
 const scrollToAyat = async (nomor) => {
@@ -150,6 +148,7 @@ const toggleBookmark = (ayat) => {
       surahId: Number(route.params.id),
       ayatNumber: ayat.nomorAyat,
       surahName: surahStore.surahDetail.namaLatin,
+      arabText: ayat.teksArab,
     });
   }
 
@@ -176,8 +175,8 @@ const isBookmarked = (ayat) => {
       <div class="bg-transparent rounded-t-3xl px-4 pt-4">
         <div class="flex justify-between items-center mb-6">
           <div
-            @click="router.push('/list-quran')"
-            class="flex items-center gap-2"
+            @click="router.push('/quran/surah')"
+            class="flex items-center gap-2 cursor-pointer"
           >
             <i class="pi pi-arrow-left text-white text-lg cursor-pointer"></i>
             <p class="text-white font-semibold text-base">Daftar Surah</p>

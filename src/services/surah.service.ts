@@ -1,9 +1,9 @@
-import apiRequest from '@/libs/api-request';
+import apiRequestSecond from '@/libs/api-request-second';
 
 export const getPosts = () => {
-  return apiRequest.get('/surat');
+  return apiRequestSecond.get('/surat');
 };
 
 export const getPostsId = (id: number) => {
-  return apiRequest.get(`/surat/${id}`);
+  return apiRequestSecond.get(`/surat/${id}`);
 };

@@ -15,7 +15,7 @@ defineProps({
       <slot name="backText">Kembali</slot>
     </div>
 
-    <p class="text-white font-semibold text-base">Quran App</p>
+    <p class="text-white font-semibold text-base lg:text-xl">Quran App</p>
 
     <div class="flex items-center gap-3">
       <p class="text-white font-semibold">{{ name }}</p>
