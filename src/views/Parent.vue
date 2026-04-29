@@ -26,7 +26,7 @@ const goToAyat = (item) => {
 
 const isActive = (path) => route.path.includes(path);
 
-const baseTab = 'px-3 py-2 rounded-lg font-bold transition-all duration-200 border';
+const baseTab = 'px-3 py-2 rounded-lg font-bold transition-all duration-200 border cursor-pointer';
 
 const activeTab = computed(() =>
   hasBookmark.value ? 'bg-primary/20 text-primary border-primary' : 'bg-white text-primary border-white',
@@ -69,6 +69,20 @@ const surahList = [
   //   name: 'Ayat Kursi',
   // },
 ];
+
+const showSurah = ref(false);
+
+onMounted(() => {
+  setTimeout(() => {
+    showSurah.value = true;
+  }, 200);
+});
+
+const sectionDelay = {
+  surah: 0,
+  bookmark: 800,
+  content: 1400,
+};
 </script>
 
 <template>
@@ -82,7 +96,7 @@ const surahList = [
       />
     </div>
 
-    <div class="relative -mt-[240px] z-10 px-4 lg:px-28">
+    <div class="relative -mt-[240px] z-10 px-4 pb-15 lg:px-28">
       <Headeruser :name="name" />
 
       <div class="relative w-full lg:w-1/2 mx-auto mb-4">
@@ -99,11 +113,12 @@ const surahList = [
         <div
           class="flex items-center justify-center cursor-pointer"
           @click="router.push(`/quran/surah/${surah.id}`)"
-          v-for="surah in surahList"
+          v-for="(surah, index) in surahList"
+          :key="surah.id"
         >
           <div
-            class="bg-white text-primary font-bold py-2 px-4 rounded-full w-fit hover:border-white border hover:bg-transparent hover:text-white transition-all duration-200"
-            key=""
+            v-animate="{ type: 'scaleIn', delay: sectionDelay.surah + index * 100 }"
+            class="bg-white text-primary text-sm font-bold py-2 px-4 rounded-full w-fit border hover:bg-transparent hover:border-white hover:text-white transition-all duration-200 cursor-pointer"
           >
             {{ surah.name }}
           </div>
@@ -117,10 +132,11 @@ const surahList = [
         <h1 class="text-white font-semibold mb-2 lg:text-lg text-md">Bookmark</h1>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
           <Bookmarkcard
-            v-for="item in bookmarks"
+            v-for="(item, index) in bookmarks"
             :key="item.ayatNumber"
             :item="item"
             @click="goToAyat(item)"
+            v-animate="{ type: 'fadeDown', delay: sectionDelay.bookmark + index * 120 }"
           />
         </div>
       </div>
@@ -145,7 +161,9 @@ const surahList = [
         <router-view v-slot="{ Component }">
           <component
             :is="Component"
+            :key="$route.fullPath"
             :search="search"
+            v-animate="{ type: 'fadeUp', delay: sectionDelay.content }"
           />
         </router-view>
       </div>

@@ -28,10 +28,11 @@ const goToDetail = (id) => {
 <template>
   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
     <div
-      class="bg-white drop-shadow-lg rounded-xl cursor-pointer px-4 py-4"
-      v-for="surah in filteredSurah"
+      v-for="(surah, index) in filteredSurah"
       :key="surah.nomor"
+      v-animate="{ type: 'fadeUp', delay: index * 2 }"
       @click="goToDetail(surah.nomor)"
+      class="bg-white drop-shadow-lg rounded-xl cursor-pointer px-4 py-4"
     >
       <div class="flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
@@ -62,22 +63,3 @@ const goToDetail = (id) => {
     </div>
   </div>
 </template>
-
-<!-- <style scoped>
-.badge {
-  @apply rounded-full bg-primary/10 px-3 py-1 border border-primary text-primary font-bold text-sm;
-}
-
-.title {
-  @apply font-semibold text-black;
-}
-
-.desc {
-  @apply text-gray-500 text-sm;
-}
-
-.arab {
-  @apply text-xl font-bold text-primary;
-  direction: rtl;
-}
-</style> -->

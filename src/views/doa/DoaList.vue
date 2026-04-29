@@ -22,14 +22,17 @@ const displayDataDoa = computed(() => {
 <template>
   <div class="grid md:grid-cols-2 gap-6">
     <div
-      v-for="doa in displayDataDoa"
+      v-for="(doa, index) in displayDataDoa"
       :key="doa.id"
       @click="router.push(`/quran/doa/${doa.id}`)"
+      v-animate="{ type: 'fadeUp', delay: index * 2 }"
       class="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition flex justify-between gap-4 cursor-pointer"
     >
       <div class="flex flex-col flex-1">
         <div class="flex gap-3 items-center">
-          <div class="rounded-full bg-primary/10 px-3 py-1 border border-primary text-primary font-bold text-sm">
+          <div
+            class="rounded-full bg-primary/10 p-4 flex items-center justify-center border border-primary text-primary font-bold text-sm w-[24px] h-[24px]"
+          >
             {{ doa.id.toString().padStart(2, '0') }}
           </div>
           <p class="text-primary bg-primary/10 px-2 py-1 rounded-lg font-semibold text-xs">{{ doa.grup }}</p>
@@ -50,25 +53,3 @@ const displayDataDoa = computed(() => {
     </div>
   </div>
 </template>
-
-<!-- <style scoped>
-.badge {
-  @apply rounded-full bg-primary/10 px-3 py-1 border border-primary text-primary font-bold text-sm;
-}
-.tag {
-  @apply text-primary bg-primary/10 px-2 py-1 rounded-lg font-semibold text-xs;
-}
-.title {
-  @apply font-semibold text-black mt-3;
-}
-.desc {
-  @apply text-gray-500 text-sm line-clamp-2 mt-2;
-}
-.arab-box {
-  @apply w-[120px] bg-gray-50 border p-3 rounded-xl flex items-center justify-center;
-}
-.arab {
-  @apply text-black font-semibold text-sm text-center line-clamp-2;
-  direction: rtl;
-}
-</style> -->
