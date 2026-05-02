@@ -26,7 +26,7 @@ const displayDataDoa = computed(() => {
       :key="doa.id"
       @click="router.push(`/quran/doa/${doa.id}`)"
       v-animate="{ type: 'fadeUp', delay: index * 2 }"
-      class="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition flex justify-between gap-4 cursor-pointer"
+      class="bg-white shadow-md rounded-xl p-4 hover:shadow-lg flex justify-between gap-4 cursor-pointer transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:-translate-x-0.5"
     >
       <div class="flex flex-col flex-1">
         <div class="flex gap-3 items-center">

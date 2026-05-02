@@ -1,17 +1,20 @@
 <script setup>
 import { useSurahStore } from '@/stores/surahs';
-import { computed, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { computed, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const props = defineProps({
   search: String,
 });
 
+const route = useRoute();
 const router = useRouter();
 const surahStore = useSurahStore();
 
 onMounted(() => {
-  surahStore.fetchSurahs();
+  if (!surahStore.surahs.length) {
+    surahStore.fetchSurahs();
+  }
 });
 
 const filteredSurah = computed(() => {
@@ -23,6 +26,13 @@ const filteredSurah = computed(() => {
 const goToDetail = (id) => {
   router.push(`/quran/surah/${id}`);
 };
+
+watch(
+  () => route.fullPath,
+  () => {
+    surahStore.fetchSurahs();
+  },
+);
 </script>
 
 <template>
@@ -32,7 +42,7 @@ const goToDetail = (id) => {
       :key="surah.nomor"
       v-animate="{ type: 'fadeUp', delay: index * 2 }"
       @click="goToDetail(surah.nomor)"
-      class="bg-white drop-shadow-lg rounded-xl cursor-pointer px-4 py-4"
+      class="bg-white rounded-xl cursor-pointer px-4 py-4 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:-translate-x-0.5"
     >
       <div class="flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">

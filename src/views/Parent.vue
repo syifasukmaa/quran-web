@@ -161,9 +161,7 @@ const sectionDelay = {
         <router-view v-slot="{ Component }">
           <component
             :is="Component"
-            :key="$route.fullPath"
             :search="search"
-            v-animate="{ type: 'fadeUp', delay: sectionDelay.content }"
           />
         </router-view>
       </div>

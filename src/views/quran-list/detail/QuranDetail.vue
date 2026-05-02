@@ -219,7 +219,7 @@ const isBookmarked = (ayat) => {
             >
               <button
                 @click="isOpen = !isOpen"
-                class="border border-gray-400/40 text-black px-4 py-2 rounded-lg flex items-center justify-between gap-2 w-full"
+                class="border border-gray-400/40 text-black px-4 py-2 rounded-lg flex items-center justify-between gap-2 w-full cursor-pointer"
               >
                 Surah <i class="pi pi-chevron-down text-gray-400"></i>
               </button>
@@ -246,7 +246,7 @@ const isBookmarked = (ayat) => {
             >
               <button
                 @click="isOpenAyat = !isOpenAyat"
-                class="border border-gray-400/40 text-black px-4 py-2 rounded-lg flex items-center justify-between gap-2 w-full"
+                class="border border-gray-400/40 text-black px-4 py-2 rounded-lg flex items-center justify-between gap-2 w-full cursor-pointer"
               >
                 Ayat <i class="pi pi-chevron-down text-gray-400"></i>
               </button>
