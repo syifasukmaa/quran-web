@@ -88,7 +88,7 @@ const sectionDelay = {
 <template>
   <div class="relative">
     <div class="relative h-[250px] rounded-b-[40px] overflow-hidden">
-      <div class="absolute inset-0 bg-primary"></div>
+      <div class="absolute inset-0 bg-primary dark:bg-muted/10"></div>
 
       <img
         src="@/assets/alquranwithoutbg.png"
@@ -104,7 +104,7 @@ const sectionDelay = {
           v-model="search"
           type="text"
           placeholder="Cari surah..."
-          class="w-full border border-white rounded-lg px-4 py-2 pr-10"
+          class="w-full border border-white rounded-lg px-4 py-2 pr-10 dark:placeholder:white dark:text-white"
         />
         <i class="pi pi-search absolute right-3 top-1/2 -translate-y-1/2 text-white"></i>
       </div>
@@ -118,7 +118,7 @@ const sectionDelay = {
         >
           <div
             v-animate="{ type: 'scaleIn', delay: sectionDelay.surah + index * 100 }"
-            class="bg-white text-primary text-sm font-bold py-2 px-4 rounded-full w-fit border hover:bg-transparent hover:border-white hover:text-white transition-all duration-200 cursor-pointer"
+            class="bg-white text-primary text-sm font-bold py-2 px-4 rounded-full w-fit border hover:bg-transparent hover:border-white hover:text-white transition-all duration-200 cursor-pointer dark:bg-muted dark:border-white dark:text-white"
           >
             {{ surah.name }}
           </div>
@@ -141,7 +141,7 @@ const sectionDelay = {
         </div>
       </div>
 
-      <div class="flex gap-2 mt-6">
+      <!-- <div class="flex gap-2 mt-6">
         <button
           @click="router.push('/quran/surah')"
           :class="[baseTab, isActive('surah') ? activeTab : inactiveTab]"
@@ -155,7 +155,7 @@ const sectionDelay = {
         >
           Doa
         </button>
-      </div>
+      </div> -->
 
       <div class="mt-6">
         <router-view v-slot="{ Component }">

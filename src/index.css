@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-
+@custom-variant dark (&:where(.dark, .dark *));
 #root {
   margin: 0 auto;
   text-align: left;
@@ -11,12 +11,25 @@
   --primary-color: #32b7c5;
   --yellow-teal: #fbe09c;
   --purple: #624bc3;
+  --background-dark: #111827;
+  --surface: #1f2937;
+  --border: #374151;
+  --primary2: #34d399;
+  --text: #f9fafb;
+  --muted: #9ca3af;
+
 }
 
 @theme inline {
   --color-primary: var(--primary-color);
   --color-yellow-teal: var(--yellow-teal);
   --color-purple: var(--purple);
+  --color-background-dark: var(--background-dark);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-primary2: var(--primary);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
 }
 
 * {

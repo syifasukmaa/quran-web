@@ -36,13 +36,26 @@ watch(
 </script>
 
 <template>
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <div v-if="filteredSurah.length === 0" class="text-center py-16">
+    <i class="pi pi-search text-5xl text-primary mb-4"></i>
+
+    <h1 class="text-xl font-semibold text-primary">
+      Pencarian Quran Tidak Ditemukan
+    </h1>
+
+    <p class="text-gray-400 mt-2">
+      Coba gunakan kata kunci lain
+    </p>
+  </div>
+
+  <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
     <div
       v-for="(surah, index) in filteredSurah"
       :key="surah.nomor"
       v-animate="{ type: 'fadeUp', delay: index * 2 }"
       @click="goToDetail(surah.nomor)"
-      class="bg-white rounded-xl cursor-pointer px-4 py-4 hover:border-t-2 hover:border-primary shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:-translate-x-0.5"
+      class="bg-white rounded-xl dark:bg-muted/10 cursor-pointer px-4 py-4 hover:border-t-2 hover:border-primary shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:-translate-x-0.5"
     >
       <div class="flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">
@@ -54,7 +67,7 @@ watch(
 
           <div class="space-y-2">
             <div class="flex gap-2 items-center">
-              <h1 class="font-semibold">{{ surah.namaLatin }}</h1>
+              <h1 class="font-semibold dark:text-white">{{ surah.namaLatin }}</h1>
               <span class="text-sm text-primary">({{ surah.arti }})</span>
             </div>
 

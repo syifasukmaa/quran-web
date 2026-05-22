@@ -3,6 +3,7 @@ import { useRoute, useRouter } from 'vue-router';
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useSurahDetailStore } from '@/stores/surah-detail';
 import { useSurahStore } from '@/stores/surahs';
+import { useThemeStore } from '@/stores/ThemeStore';
 
 const route = useRoute();
 const router = useRouter();
@@ -19,6 +20,7 @@ const dropdownRefAyat = ref(null);
 const bookmarks = ref([]);
 const isLoading = ref(true);
 const errorMessage = ref('');
+const themeStore = useThemeStore()
 
 const handleClickOutsideAll = (e) => {
   if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
@@ -208,9 +210,12 @@ const shareToWhatsapp = (ayat) => {
 
           <div class="flex items-center gap-3">
             <p class="text-white font-semibold">{{ name }}</p>
-            <div class="rounded-full bg-primary/10 px-3 py-2 border border-white text-white font-bold">
+            <div class="rounded-full bg-primary/10 px-3 py-2.5 border border-white text-white font-bold">
               {{ name.slice(0, 2).toUpperCase() }}
             </div>
+            <button @click="themeStore.toggleDark" class=" cursor-pointer inline-flex items-center gap-2 p-4 rounded-full text-lg  font-semibold bg-white text-gray-600 dark:text-white dark:bg-muted transition-all duration-200">
+              <i :class="themeStore.isDark ? 'pi pi-moon text-lg' : 'pi pi-sun text-lg'" />
+            </button>
           </div>
         </div>
       </div>
@@ -219,10 +224,10 @@ const shareToWhatsapp = (ayat) => {
     <div class="-mt-5">
       <div class="flex items-center flex-col">
         <div class="bg-gray-400/20 w-full text-center flex flex-col items-center justify-start lg:justify-center py-8">
-          <h1 class="text-2xl font-bold">{{ surahStore.surahDetail.nama }}</h1>
+          <h1 class="text-2xl font-bold dark:text-primary">{{ surahStore.surahDetail.nama }}</h1>
           <div class="flex gap-2 items-center mt-1">
-            <p class="font-semibold">{{ surahStore?.surahDetail?.namaLatin }}</p>
-            <p class="text-sm">({{ surahStore.surahDetail.arti }})</p>
+            <p class="font-semibold dark:text-white">{{ surahStore?.surahDetail?.namaLatin }}</p>
+            <p class="text-sm dark:text-primary">({{ surahStore.surahDetail.arti }})</p>
           </div>
 
           <div class="flex gap-2 items-center mt-2">
@@ -243,14 +248,14 @@ const shareToWhatsapp = (ayat) => {
             >
               <button
                 @click="isOpen = !isOpen"
-                class="border border-gray-400/40 text-black px-4 py-2 rounded-lg flex items-center justify-between gap-2 w-full cursor-pointer"
+                class="border border-gray-400/40 hover:bg-gray-100 hover:text-primary text-black px-4 py-2 rounded-lg flex items-center justify-between gap-2 w-full cursor-pointer dark:bg-muted dark:border-white dark:text-white"
               >
-                Surah <i class="pi pi-chevron-down text-gray-400"></i>
+                Surah <i class="pi pi-chevron-down text-gray-400 dark:text-white"></i>
               </button>
 
               <div
                 v-if="isOpen"
-                class="absolute mt-2 w-40 bg-white border rounded-lg shadow-lg z-50 h-48 overflow-y-auto"
+                class="absolute mt-2 w-40 cursor-pointer bg-white border rounded-lg shadow-lg z-50 h-48 overflow-y-auto hover:bg-gray-100 hover:text-primary dark:bg-muted dark:border-white dark:text-white"
               >
                 <ul class="py-2">
                   <li
@@ -270,14 +275,14 @@ const shareToWhatsapp = (ayat) => {
             >
               <button
                 @click="isOpenAyat = !isOpenAyat"
-                class="border border-gray-400/40 text-black px-4 py-2 rounded-lg flex items-center justify-between gap-2 w-full cursor-pointer"
+                class="border border-gray-400/40 hover:bg-gray-100 hover:text-primary text-black px-4 py-2 rounded-lg flex items-center justify-between gap-2 w-full cursor-pointer dark:bg-muted dark:border-white dark:text-white"
               >
-                Ayat <i class="pi pi-chevron-down text-gray-400"></i>
+                Ayat <i class="pi pi-chevron-down text-gray-400 dark:text-white"></i>
               </button>
 
               <div
                 v-if="isOpenAyat"
-                class="absolute mt-2 w-40 bg-white border rounded-lg shadow-lg z-50 h-48 overflow-auto"
+                class="absolute mt-2 w-40 cursor-pointer bg-white border rounded-lg shadow-lg z-50 h-48 overflow-auto hover:bg-gray-100 hover:text-primary dark:bg-muted dark:border-white dark:text-white"
               >
                 <div
                   v-for="ayat in surahStore.surahDetail.ayat"
@@ -293,19 +298,19 @@ const shareToWhatsapp = (ayat) => {
         </div>
 
         <div class="px-4 md:pr-8 md:pl-12 lg:px-28">
-          <h1 class="text-center font-semibold my-8 text-2xl">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h1>
+          <h1 class="text-center font-semibold my-8 text-2xl dark:text-primary">بِسْمِ اللّٰهِ الرَّحْمٰنِ الرَّحِيْمِ</h1>
           <div
             v-for="ayat in surahStore.surahDetail.ayat"
             :key="ayat.ayat"
             class="py-2"
             :id="`ayat-${ayat.nomorAyat}`"
           >
-            <p class="text-right text-2xl font-semibold">
+            <p class="text-right text-2xl font-semibold dark:text-primary">
               {{ ayat.teksArab }}
 
             </p>
             <p class="text-left text-primary font-semibold mt-5 text-lg">{{ ayat.teksLatin }}</p>
-            <p class="text-left mt-3 text-lg">{{ ayat?.nomorAyat }}. {{ ayat.teksIndonesia }}</p>
+            <p class="text-left mt-3 text-lg dark:text-white">{{ ayat?.nomorAyat }}. {{ ayat.teksIndonesia }}</p>
 
             <div class="flex items-center gap-3 mt-4">
               <i

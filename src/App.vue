@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import 'primeicons/primeicons.css';
+import { onMounted, ref, watch } from 'vue';
 
 import { useRoute } from 'vue-router';
 
@@ -8,7 +9,7 @@ const route = useRoute();
 
 <template>
   <div class="flex flex-col min-h-screen">
-    <div class="flex-1">
+    <div class="flex-1 bg-gray-100 dark:bg-background-dark transition-colors duration-300">
       <router-view />
     </div>
 
@@ -19,6 +20,8 @@ const route = useRoute();
       <p>© 2026 Qur’an Web</p>
       <p class="mt-1">Temani setiap langkah dalam membaca dan memahami Al-Qur’an.</p>
     </footer>
+
+
   </div>
 </template>
 <style scoped></style>
