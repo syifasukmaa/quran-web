@@ -1,6 +1,5 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
-import { getPostsId } from '@/services/surah.service';
 import { getDoasId } from '@/services/doa.service';
 
 export const useDoaDetailStore = defineStore('doaDetail', () => {

@@ -42,7 +42,7 @@ watch(
       :key="surah.nomor"
       v-animate="{ type: 'fadeUp', delay: index * 2 }"
       @click="goToDetail(surah.nomor)"
-      class="bg-white rounded-xl cursor-pointer px-4 py-4 shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:-translate-x-0.5"
+      class="bg-white rounded-xl cursor-pointer px-4 py-4 hover:border-t-2 hover:border-primary shadow-md hover:shadow-xl transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:-translate-x-0.5"
     >
       <div class="flex items-center justify-between gap-3">
         <div class="flex items-center gap-3">

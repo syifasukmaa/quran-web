@@ -29,11 +29,11 @@ const isActive = (path) => route.path.includes(path);
 const baseTab = 'px-3 py-2 rounded-lg font-bold transition-all duration-200 border cursor-pointer';
 
 const activeTab = computed(() =>
-  hasBookmark.value ? 'bg-primary/20 text-primary border-primary' : 'bg-white text-primary border-white',
+  hasBookmark.value ? 'bg-primary/20 text-primary border-primary' : 'bg-primary text-white border-white',
 );
 
 const inactiveTab = computed(() =>
-  hasBookmark.value ? 'text-primary border-primary hover:bg-white/10' : 'text-white border-white hover:bg-white/20',
+  hasBookmark.value ? 'text-primary border-primary hover:bg-white/20' : 'text-primary bg-white/20 border-white hover:bg-white/20',
 );
 
 onMounted(() => {
@@ -109,7 +109,7 @@ const sectionDelay = {
         <i class="pi pi-search absolute right-3 top-1/2 -translate-y-1/2 text-white"></i>
       </div>
 
-      <div class="mt-5 flex items-center justify-center gap-3">
+      <div class="mt-5 flex items-center justify-center gap-2 md:gap-3 flex-wrap ">
         <div
           class="flex items-center justify-center cursor-pointer"
           @click="router.push(`/quran/surah/${surah.id}`)"
@@ -130,7 +130,7 @@ const sectionDelay = {
         class="mt-4"
       >
         <h1 class="text-white font-semibold mb-2 lg:text-lg text-md">Bookmark</h1>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
           <Bookmarkcard
             v-for="(item, index) in bookmarks"
             :key="item.ayatNumber"

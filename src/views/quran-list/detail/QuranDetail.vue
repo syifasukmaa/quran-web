@@ -17,33 +17,8 @@ const dropdownRef = ref(null);
 const isOpenAyat = ref(false);
 const dropdownRefAyat = ref(null);
 const bookmarks = ref([]);
-
-// const handleClickOutside = (e) => {
-//   if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
-//     isOpen.value = false;
-//   }
-// };
-
-// onMounted(() => {
-//   document.addEventListener('click', handleClickOutside);
-// });
-
-// onBeforeUnmount(() => {
-//   document.removeEventListener('click', handleClickOutside);
-// });
-// const handleClickOutsideAyat = (e) => {
-//   if (dropdownRefAyat.value && !dropdownRefAyat.value.contains(e.target)) {
-//     isOpenAyat.value = false;
-//   }
-// };
-
-// onMounted(() => {
-//   document.addEventListener('click', handleClickOutsideAyat);
-// });
-
-// onBeforeUnmount(() => {
-//   document.removeEventListener('click', handleClickOutsideAyat);
-// });
+const isLoading = ref(true);
+const errorMessage = ref('');
 
 const handleClickOutsideAll = (e) => {
   if (dropdownRef.value && !dropdownRef.value.contains(e.target)) {
@@ -62,10 +37,21 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutsideAll);
 });
 onMounted(async () => {
-  name.value = localStorage.getItem('name');
-  await surahStore.fetchSurahs(Number(route.params.id));
+   try {
+    isLoading.value = true;
+    errorMessage.value = '';
 
-  surahStoreList.fetchSurahs();
+    name.value = localStorage.getItem('name');
+
+    await surahStore.fetchSurahs(Number(route.params.id));
+
+    await surahStoreList.fetchSurahs();
+  } catch (error) {
+    errorMessage.value = 'Gagal memuat data surah';
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
   // console.log('List:', surahStoreList.surahs);
 });
 
@@ -102,14 +88,18 @@ watch(
 
 const audio = new Audio();
 
-const playAudio = (url) => {
-  audio.pause();
-  audio.currentTime = 0;
+const playAudio = async (url) => {
+  try {
+    audio.pause();
+    audio.currentTime = 0;
 
-  audio.src = url;
-  audio.play();
+    audio.src = url;
+
+    await audio.play();
+  } catch (error) {
+    alert('Audio gagal diputar');
+  }
 };
-
 const stopAudio = () => {
   audio.pause();
   audio.currentTime = 0;
@@ -148,7 +138,8 @@ const toggleBookmark = (ayat) => {
       surahId: Number(route.params.id),
       ayatNumber: ayat.nomorAyat,
       surahName: surahStore.surahDetail.namaLatin,
-      arabText: ayat.teksArab,
+      arabText: surahStore.surahDetail.nama
+      // arabText: ayat.teksArab,
     });
   }
 
@@ -158,11 +149,44 @@ const toggleBookmark = (ayat) => {
 const isBookmarked = (ayat) => {
   return bookmarks.value.some((item) => item.surahId === Number(route.params.id) && item.ayatNumber === ayat.nomorAyat);
 };
+
+const shareToWhatsapp = (ayat) => {
+  const text = `📖 ${surahStore.surahDetail.namaLatin} - Ayat ${ayat.nomorAyat} ${ayat.teksArab} ${ayat.teksIndonesia} ${window.location.href}#ayat-${ayat.nomorAyat}`;
+
+  const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+
+  window.open(url, '_blank');
+};
 </script>
 
 <template>
-  <div class="relative">
-    <div class="h-[80px] bg-primary w-full overflow-hidden relative z-0">
+ <div
+    v-if="errorMessage"
+    class="flex flex-col items-center justify-center py-20 text-center"
+  >
+    <i class="pi pi-exclamation-circle text-red-500 text-5xl mb-4"></i>
+
+    <h1 class="text-xl font-bold text-red-500">
+      Terjadi Kesalahan
+    </h1>
+
+    <p class="text-gray-500 mt-2">
+      {{ errorMessage }}
+    </p>
+
+    <button
+      @click="router.go(0)"
+      class="mt-5 bg-primary text-white px-5 py-2 rounded-xl cursor-pointer "
+    >
+      Coba Lagi
+    </button>
+  </div>
+
+  <div
+    v-else
+    class="relative"
+  >
+        <div class="h-[80px] bg-primary w-full overflow-hidden relative z-0">
       <img
         src="../../../assets/alquranwithoutbg.png"
         class="absolute inset-0 w-full h-full object-cover opacity-30 scale-110"
@@ -278,7 +302,7 @@ const isBookmarked = (ayat) => {
           >
             <p class="text-right text-2xl font-semibold">
               {{ ayat.teksArab }}
-              <span class="rounded-full border border-primary px-2 py-1 text-xs">{{ ayat?.nomorAyat }}</span>
+
             </p>
             <p class="text-left text-primary font-semibold mt-5 text-lg">{{ ayat.teksLatin }}</p>
             <p class="text-left mt-3 text-lg">{{ ayat?.nomorAyat }}. {{ ayat.teksIndonesia }}</p>
@@ -288,7 +312,7 @@ const isBookmarked = (ayat) => {
                 class="pi pi-play-circle text-primary text-3xl cursor-pointer"
                 @click="playAudio(ayat.audio?.['01'])"
               ></i>
-              <i class="pi pi-share-alt text-primary text-2xl cursor-pointer"></i>
+              <i class="pi pi-share-alt text-primary text-2xl cursor-pointer" @click="shareToWhatsapp(ayat)"></i>
               <i
                 class="pi text-2xl cursor-pointer"
                 :class="isBookmarked(ayat) ? 'pi-bookmark-fill text-yellow-500' : 'pi-bookmark text-primary'"

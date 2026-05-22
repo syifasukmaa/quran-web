@@ -8,22 +8,22 @@ const emit = defineEmits(['click']);
 
 <template>
   <div
-    class="bg-white p-3 rounded-lg border border-gray-500 flex flex-col hover:border-primary hover:bg-gray-300/70 cursor-pointer transition-all h-24"
+    class="bg-white py-3 rounded-lg border border-gray-300 flex flex-col hover:border-2  hover:border-primary cursor-pointer transition-all"
     @click="$emit('click')"
   >
-    <div class="flex justify-between items-center">
-      <p class="font-semibold">{{ item.surahName }} - Ayat {{ item.ayatNumber }}</p>
 
-      <i class="pi pi-bookmark-fill"></i>
-    </div>
-
-    <div class="mt-3">
-      <p
-        class="text-right text-lg line-clamp-1"
+  <div>
+     <p
+        class="text-center font-bold text-xl line-clamp-1 text-primary "
         dir="rtl"
       >
         {{ item.arabText }}
       </p>
-    </div>
+      <p class="font-semibold text-center text-sm ">{{ item.surahName }}</p>
+      <p class="text-sm text-gray-500 text-center ">Ayat ke {{ item.ayatNumber }}</p>
+      <div class="text-center mt-2" >
+        <i class=" pi pi-bookmark-fill text-red-500"></i>
+      </div>
+  </div>
   </div>
 </template>

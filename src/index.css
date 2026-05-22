@@ -18,3 +18,7 @@
   --color-yellow-teal: var(--yellow-teal);
   --color-purple: var(--purple);
 }
+
+* {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}

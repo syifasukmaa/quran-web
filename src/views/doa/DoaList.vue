@@ -1,6 +1,6 @@
 <script setup>
 import { useDoaStore } from '@/stores/doas';
-import { computed, onMounted } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const props = defineProps({
@@ -9,9 +9,22 @@ const props = defineProps({
 
 const router = useRouter();
 const doaStore = useDoaStore();
+const isLoading = ref(true);
+const errorMessage = ref('');
 
-onMounted(() => {
-  doaStore.fetchDoas();
+onMounted(async() => {
+     try {
+    isLoading.value = true;
+    errorMessage.value = 'Gagal memuat data doa';
+
+    await doaStore.fetchDoas();
+  } catch (error) {
+    errorMessage.value = 'Gagal memuat data surah';
+    console.error(error);
+  } finally {
+    isLoading.value = false;
+  }
+ 
 });
 
 const displayDataDoa = computed(() => {
@@ -20,13 +33,35 @@ const displayDataDoa = computed(() => {
 </script>
 
 <template>
+
+  <div
+  v-if="errorMessage"
+  class="flex flex-col items-center justify-center py-20 text-center"
+>
+  <i class="pi pi-exclamation-circle text-red-500 text-5xl mb-4"></i>
+
+  <h1 class="text-xl font-bold text-red-500">
+    Terjadi Kesalahan
+  </h1>
+
+  <p class="text-gray-500 mt-2">
+    {{ errorMessage }}
+  </p>
+
+  <button
+    @click="router.go(0)"
+    class="mt-5 bg-primary text-white px-5 py-2 rounded-xl hover:scale-105 transition-all duration-200 cursor-pointer"
+  >
+    Coba Lagi
+  </button>
+</div>
   <div class="grid md:grid-cols-2 gap-6">
     <div
       v-for="(doa, index) in displayDataDoa"
       :key="doa.id"
       @click="router.push(`/quran/doa/${doa.id}`)"
       v-animate="{ type: 'fadeUp', delay: index * 2 }"
-      class="bg-white shadow-md rounded-xl p-4 hover:shadow-lg flex justify-between gap-4 cursor-pointer transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:-translate-x-0.5"
+      class="bg-white shadow-md rounded-xl p-4 hover:shadow-lg hover:border-t-2 hover:border-primary  flex justify-between gap-4 cursor-pointer transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:-translate-x-0.5"
     >
       <div class="flex flex-col flex-1">
         <div class="flex gap-3 items-center">
