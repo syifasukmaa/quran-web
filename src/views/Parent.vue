@@ -3,6 +3,7 @@ import Headeruser from '@/components/Headeruser.vue';
 import Bookmarkcard from '@/components/Bookmarkcard.vue';
 import { ref, onMounted, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import PrayerCard from '@/components/PrayerCard.vue';
 
 const router = useRouter();
 const route = useRoute();
@@ -156,6 +157,8 @@ const sectionDelay = {
           Doa
         </button>
       </div> -->
+
+      <PrayerCard />
 
       <div class="mt-6">
         <router-view v-slot="{ Component }">

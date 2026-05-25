@@ -40,7 +40,7 @@ onMounted(() => {
          {{ name?.slice(0, 2).toUpperCase() }}
       </p>
     </div>
-      <button @click="themeStore.toggleDark" class=" cursor-pointer inline-flex items-center gap-2 p-4 rounded-full text-lg  font-semibold bg-white text-gray-600 dark:text-white dark:bg-muted transition-all duration-200">
+      <button @click="themeStore.toggleDark" class=" cursor-pointer inline-flex items-center gap-2 p-4 rounded-full text-lg  font-semibold dark:text-white transition-all duration-200 text-white hover:bg-white dark:hover:bg-muted dark:hover:text-white hover:text-primary">
         <i :class="themeStore.isDark ? 'pi pi-moon text-lg' : 'pi pi-sun text-lg'" />
       </button>
   </div>

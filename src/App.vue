@@ -20,8 +20,6 @@ const route = useRoute();
       <p>© 2026 Qur’an Web</p>
       <p class="mt-1">Temani setiap langkah dalam membaca dan memahami Al-Qur’an.</p>
     </footer>
-
-
   </div>
 </template>
 <style scoped></style>

@@ -14,13 +14,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
-  // server: {
-  //   proxy: {
-  //     '/quran-api': {
-  //       target: 'https://equran.id',
-  //       changeOrigin: true,
-  //       rewrite: (path) => path.replace(/^\/quran-api/, ''),
-  //     },
-  //   },
-  // },
 });
