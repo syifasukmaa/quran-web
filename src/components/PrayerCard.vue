@@ -3,9 +3,11 @@ import { ref, computed, watch, onMounted } from "vue";
 import { usePrayerTimeStore } from "@/stores/prayerTime";
 import { useProvinceStore } from "@/stores/province";
 import { reverseGeocode } from "@/services/prayer.service";
+import { useCityStore } from "@/stores/cities";
 
 const store = usePrayerTimeStore();
 const provinceStore = useProvinceStore();
+const cityStore = useCityStore();
 const now = new Date();
 
 const showManual = ref(false);
@@ -58,7 +60,7 @@ const dateStr = computed(() => {
 
 watch(selectedProvince, (val) => {
     selectedCity.value = "";
-    if (val) provinceStore.fetchCities(val);
+    if (val) cityStore.fetchCities(val);
 });
 
 async function openManual() {
@@ -103,9 +105,9 @@ async function handleAutoLocation() {
                     geoLoading.value = false;
                     return;
                 }
-                await provinceStore.fetchCities(matchedProvince);
+                await cityStore.fetchCities(matchedProvince);
 
-                const matchedCity = provinceStore.cities.find((c) => city.toLowerCase().includes(c.toLowerCase()) || c.toLowerCase().includes(city.toLowerCase()));
+                const matchedCity = cityStore.cities.find((c) => city.toLowerCase().includes(c.toLowerCase()) || c.toLowerCase().includes(city.toLowerCase()));
                 if (!matchedCity) {
                     geoError.value = "";
                     selectedProvince.value = matchedProvince;
@@ -285,7 +287,7 @@ onMounted(async () => {
                         class="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-500 bg-white dark:bg-slate-700 text-sm text-gray-800 dark:text-white outline-none focus:border-primary transition-all cursor-pointer"
                     >
                         <option value="" disabled>
-                            {{ provinceStore.loadingProvince ? "Memuat..." : "Pilih Provinsi" }}
+                            {{ provinceStore.loading ? "Memuat..." : "Pilih Provinsi" }}
                         </option>
                         <option v-for="p in provinceStore.provinces" :key="p" :value="p">{{ p }}</option>
                     </select>
@@ -296,13 +298,13 @@ onMounted(async () => {
                     <label class="text-xs font-bold text-gray-600 dark:text-slate-300 block mb-1">Kota / Kabupaten</label>
                     <select
                         v-model="selectedCity"
-                        :disabled="!selectedProvince || provinceStore.loadingCity"
+                        :disabled="!selectedProvince || cityStore.loading"
                         class="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-slate-500 bg-white dark:bg-slate-700 text-sm text-gray-800 dark:text-white outline-none focus:border-primary transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                     >
                         <option value="" disabled>
-                            {{ provinceStore.loadingCity ? "Memuat kota..." : "Pilih Kota" }}
+                            {{ cityStore.loading ? "Memuat kota..." : "Pilih Kota" }}
                         </option>
-                        <option v-for="c in provinceStore.cities" :key="c" :value="c">{{ c }}</option>
+                        <option v-for="c in cityStore.cities" :key="c" :value="c">{{ c }}</option>
                     </select>
                 </div>
 
