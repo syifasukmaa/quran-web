@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen flex items-center justify-center px-4">
         <div class="w-full max-w-md text-center flex flex-col items-center">
-            <img src="../../assets/alquran_web.png" alt="alquran" class="w-40 md:w-48 lg:w-56 mb-4" />
+            <img src="../../assets/alquran_web.png" alt="alquran" class="w-40 md:w-48 lg:w-56 mb-4" width="192" height="192" />
 
             <h1 class="font-bold text-3xl md:text-4xl text-primary">My Quran</h1>
             <p class="text-gray-500 text-sm md:text-base mt-2">Baca Al-Qur'an dengan mudah</p>
