@@ -35,6 +35,10 @@ const handleClickOutsideAll = (e) => {
 };
 
 onMounted(() => {
+    themeStore.initTheme();
+});
+
+onMounted(() => {
     document.addEventListener("click", handleClickOutsideAll);
 });
 
@@ -242,9 +246,9 @@ const shareToWhatsapp = (ayat) => {
                             {{ name.slice(0, 2).toUpperCase() }}
                         </div>
                         <button
-                            @click="themeStore.toggleDark"
                             aria-label="button dark mode"
-                            class="cursor-pointer inline-flex items-center gap-2 p-4 rounded-full text-lg font-semibold bg-white text-gray-600 dark:text-white dark:bg-muted transition-all duration-200"
+                            @click="themeStore.toggleDark"
+                            class="cursor-pointer inline-flex items-center gap-2 p-4 rounded-full text-lg font-semibold dark:text-white transition-all duration-200 text-white hover:bg-white dark:hover:bg-muted dark:hover:text-white hover:text-primary"
                         >
                             <i
                                 :class="
