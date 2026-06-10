@@ -7,11 +7,8 @@ import { useThemeStore } from "@/stores/ThemeStore";
 
 const route = useRoute();
 const router = useRouter();
-
 const surahStore = useSurahDetailStore();
-
 const surahStoreList = useSurahStore();
-
 const name = ref("");
 const isOpen = ref(false);
 const dropdownRef = ref(null);
@@ -34,17 +31,6 @@ const handleClickOutsideAll = (e) => {
     }
 };
 
-onMounted(() => {
-    themeStore.initTheme();
-});
-
-onMounted(() => {
-    document.addEventListener("click", handleClickOutsideAll);
-});
-
-onBeforeUnmount(() => {
-    document.removeEventListener("click", handleClickOutsideAll);
-});
 onMounted(async () => {
     try {
         isLoading.value = true;
@@ -61,6 +47,24 @@ onMounted(async () => {
     } finally {
         isLoading.value = false;
     }
+
+    audio.addEventListener("ended", () => {
+        currentAudio.value = null;
+        isPlaying.value = false;
+    });
+
+    window.addEventListener("beforeunload", stopAudio);
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+            stopAudio();
+        }
+    });
+
+    document.addEventListener("click", handleClickOutsideAll);
+
+    themeStore.initTheme();
+
     // console.log('List:', surahStoreList.surahs);
 });
 
@@ -136,26 +140,13 @@ const resumeAudio = async () => {
         console.error(error);
     }
 };
-onMounted(() => {
-    audio.addEventListener("ended", () => {
-        currentAudio.value = null;
-        isPlaying.value = false;
-    });
-
-    window.addEventListener("beforeunload", stopAudio);
-
-    document.addEventListener("visibilitychange", () => {
-        if (document.hidden) {
-            stopAudio();
-        }
-    });
-});
 
 onBeforeUnmount(() => {
     window.removeEventListener("beforeunload", stopAudio);
+
+    document.removeEventListener("click", handleClickOutsideAll);
 });
 
-// ini untuk bookmark
 onMounted(() => {
     bookmarks.value = JSON.parse(localStorage.getItem("bookmarks") || "[]");
 });
@@ -228,14 +219,18 @@ const shareToWhatsapp = (ayat) => {
         </div>
 
         <div class="relative -mt-[75px] z-10 px-4 lg:px-28">
-            <div class="bg-transparent rounded-t-3xl px-4 pt-4">
+            <div class="bg-transparent rounded-t-3xl px-4 mt-2.5">
                 <div class="flex justify-between items-center mb-6">
                     <div
                         @click="router.push('/quran/surah')"
-                        class="flex items-center gap-2 cursor-pointer"
+                        class="flex items-center gap-2 cursor-pointer group"
                     >
-                        <i class="pi pi-arrow-left text-white text-lg cursor-pointer"></i>
-                        <p class="text-white font-semibold text-base">Daftar Surah</p>
+                        <i
+                            class="pi pi-arrow-left text-white text-lg cursor-pointer group-hover:text-sm"
+                        ></i>
+                        <p class="text-white font-semibold text-base group-hover:text-sm">
+                            Daftar Surah
+                        </p>
                     </div>
 
                     <div class="flex items-center gap-3">
